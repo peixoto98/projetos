@@ -1,0 +1,9 @@
+---
+- name: Copy join to nodes
+  copy:
+    dest: /opt/swarmjoin.sh
+    src: ./join/swarmjoin.sh
+    mode: '0700'
+
+- name: Run commando on remote
+  shell: /opt/swarmjoin.sh
