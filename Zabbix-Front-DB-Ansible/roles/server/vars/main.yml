@@ -1,0 +1,17 @@
+---
+zabbix_packages:
+- zabbix-server-mysql
+- zabbix-sql-scripts
+- zabbix-agent
+- mysql.x86_64
+- python3-PyMySQL
+
+services:
+- zabbix-server
+- zabbix-agent
+
+DBName: zabbix 
+DBUser: zabbix
+DBPassword: zabbix 
+DBHost: <IP_Database>
+mysql_root_pass: root

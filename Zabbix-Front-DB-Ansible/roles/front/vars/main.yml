@@ -1,0 +1,13 @@
+---
+zabbix_packages:
+- zabbix-web-mysql
+- zabbix-apache-conf
+- zabbix-agent
+
+services:
+- httpd
+- php-fpm
+
+users:
+- apache 
+- nginx 

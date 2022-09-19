@@ -1,0 +1,15 @@
+---
+- hosts: database
+  become: true
+  roles: 
+    - ansible-role-mysql-main
+
+- hosts: zabbix
+  become: true
+  roles: 
+    - role-zabbix
+
+- hosts: front
+  become: true
+  roles: 
+    - front

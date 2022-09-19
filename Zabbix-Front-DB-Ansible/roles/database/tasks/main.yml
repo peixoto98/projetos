@@ -1,0 +1,60 @@
+---
+- name: Disable SELinux 
+  selinux:
+    state: disabled
+
+- name: Install mysql packages
+  dnf:
+    name: "{{ mysql_packages }}"
+    state: present
+
+- name: Start mysql service
+  service:
+    name: mysqld
+    state: started
+    enabled: true
+
+- name: Set root password localhost
+  mysql_user:
+    name: "{{ mysql_root_user }}"
+    host: localhost
+    password: "{{ mysql_root_pass }}"
+    state: present
+    check_implicit_admin: yes
+    login_user: "{{ mysql_root_user }}"
+    login_host: localhost
+    login_password: "{{ mysql_root_pass }}"
+  notify:
+    - restart mysql
+
+- name: Create `/root/.my.cnf`  with root password credentials
+  template:
+    src:  user.root.mycnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    mode: 0600
+    force: yes
+
+- name: Create Database
+  mysql_db:
+    name: "{{ DBName }}"
+    collation: utf8mb4_bin
+    encoding: utf8mb4 
+    login_user: root
+    login_password: "{{ mysql_root_pass }}"
+    state: present
+
+- name: User Create
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_pass }}"
+    name: "{{ DBUser }}"
+    password: "{{ DBPassword }}"
+    priv: zabbix.*:ALL
+    state: present
+    host: "{{ item }}"
+  with_items: 
+    - "{{ ServerHost }}"
+    - "{{ DBHost }}"
+    - "{{ FrontHost }}"
+  notify: restart mysql

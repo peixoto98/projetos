@@ -1,0 +1,14 @@
+---
+mysql_root_user: root
+mysql_root_pass: root
+mysql_packages:
+  - mysql-server
+  - python3-PyMySQL
+
+DBName: zabbix 
+DBUser: zabbix
+DBPassword: zabbix 
+
+ServerHost: <IP_ZabbixServer>
+DBHost: <IP_Database>
+FrontHost: <IP_Frontend>
